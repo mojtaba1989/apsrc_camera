@@ -1,0 +1,19 @@
+<launch>
+  <arg name="camera_name" default="webcam"/>
+  <arg name="device_id" default="0"/>
+  <arg name="width" default="640"/>
+  <arg name="height" default="480"/>
+  <arg name="fps" default="15"/>
+  <arg name="node_name" default="webcam_node"/>
+  <arg name="dir" default="/tmp"/>
+  <!-- <arg name="dir" default="$(env pwd)"/> export pwd=$(pwd) for using this option-->
+
+  <node name="$(arg node_name)" pkg="apsrc_camera" type="webcam_node" output="screen">
+    <param name="camera_name" value="$(arg camera_name)"/>
+    <param name="device_id" value="$(arg device_id)"/>
+    <param name="width" value="$(arg width)"/>
+    <param name="height" value="$(arg height)"/>
+    <param name="fps" value="$(arg fps)"/>
+    <param name="dir" value="$(arg dir)"/>
+  </node>
+</launch>
