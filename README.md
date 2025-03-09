@@ -85,6 +85,26 @@ The node will:
 
 ---
 
+## Using Current Directory as Save Location
+The launch file provides an option to use the current working directory (`pwd`) as the save location for recorded videos. To enable this, modify the launch file to:
+
+```xml
+<arg name="dir" default="$(env pwd)"/>
+```
+
+Before launching the node, ensure you export the `pwd` environment variable like this:
+
+```bash
+export pwd=$(pwd)
+roslaunch apsrc_camera webcam.launch
+```
+
+This will save the recorded videos in the current working directory.
+
+If you do not set the `pwd` environment variable, the launch will fail with an error stating that the variable is not set.
+
+---
+
 ## Expected Output
 - The video file will be saved as:
   ```
