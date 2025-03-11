@@ -37,7 +37,7 @@ The following parameters can be configured in the launch file:
 | `height`      | `int`    | `480`       | Height of the video frame.                  |
 | `fps`         | `int`    | `15`        | Frames per second for video capture.        |
 | `dir`         | `string` | `/tmp`      | Directory to save the recorded video.       |
-
+| `rotate`      | `bool`   | `false`     | Enables 180 rotation                        |
 ---
 
 ## File Naming Convention

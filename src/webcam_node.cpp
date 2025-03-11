@@ -25,6 +25,7 @@ private:
 	int frame_height_;
 	int frame_rate_;
 	uint64_t time_lapse_ref_;
+
 	// Parameters
 	std::string camera_name_;
 	int device_id_;
@@ -32,6 +33,7 @@ private:
 	int height_;
 	int fps_;
 	std::string dir_;
+	bool rotate_ = false;
   
 public:
 	webcam_node()
@@ -123,6 +125,10 @@ public:
 			return;
 		}
 		
+		if (rotate_)
+		{
+			cv::rotate(frame_, frame_, cv::ROTATE_180);
+		}
 		uint64_t time_lapse = ros::Time::now().toNSec() - time_lapse_ref_;
 		std::string timestamp_text = std::to_string(msg_.header.seq);
 		cv::putText(frame_, timestamp_text, cv::Point(5,15), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 1);
@@ -141,6 +147,7 @@ public:
 		pnh_.param("height", height_, 480);
 		pnh_.param("fps", fps_, 15);
 		pnh_.param<std::string>("dir", dir_, "/tmp");
+		pnh_.param("rotate", rotate_, false);
 		ROS_INFO("Parameters loaded");
 	}
 
