@@ -19,7 +19,6 @@ find_package(Boost REQUIRED)
 find_package(OpenCV 3.2 REQUIRED)
 
 catkin_package(
-    INCLUDE_DIRS include
     CATKIN_DEPENDS ${catkin_deps}
 )
 
@@ -27,7 +26,6 @@ roslint_cpp()
 
 
 include_directories(
-    include
     ${catkin_INCLUDE_DIRS}
     ${OpenCV_INCLUDE_DIRS}
 )
