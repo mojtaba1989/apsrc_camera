@@ -4,9 +4,10 @@
   <arg name="width" default="1280"/>
   <arg name="height" default="720"/>
   <arg name="fps" default="15"/>
-  <arg name="node_name" default="webcam_node"/>
+  <arg name="node_name" default="$(arg camera_name)"/>
   <arg name="dir" default="/tmp"/>
   <arg name="rotate" default="false"/>
+  <arg name="yaml_enb" default="true"/>
   <!-- <arg name="dir" default="$(env pwd)"/> export pwd=$(pwd) for using this option-->
 
   <node name="$(arg node_name)" pkg="apsrc_camera" type="webcam_node" output="screen">
@@ -18,4 +19,6 @@
     <param name="dir" value="$(arg dir)"/>
     <param name="rotate" value="$(arg rotate)"/>
   </node>
+
+  <rosparam if="$(arg yaml_enb)" command="load" subst_value="true" file="$(find apsrc_camera)/config/camera_config.yaml"/>
 </launch>

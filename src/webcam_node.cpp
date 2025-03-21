@@ -53,11 +53,12 @@ public:
 		}
 
 		ROS_INFO("Camera opened successfully");
+		config();
 
 		frame_height_ =static_cast<int>(cap_.get(cv::CAP_PROP_FRAME_HEIGHT));
 		frame_width_ = static_cast<int>(cap_.get(cv::CAP_PROP_FRAME_WIDTH));
 		frame_rate_ = static_cast<int>(cap_.get(cv::CAP_PROP_FPS));
-
+		
 		ROS_INFO("Original settings: (%dx%d)@%d", frame_width_, frame_height_, frame_rate_);
 		msg_.header.frame_id = "base_link";
 		msg_.header.seq = 0;
@@ -149,6 +150,75 @@ public:
 		pnh_.param<std::string>("dir", dir_, "/tmp");
 		pnh_.param("rotate", rotate_, false);
 		ROS_INFO("Parameters loaded");
+	}
+
+	void config()
+	{
+		int brightness;
+		int contrast;
+		int saturation;
+		int sharpness;
+		int backlight_compensation;
+		int exposure_auto;
+		int exposure;
+		int focus_absolute;
+		int focus_auto;
+		pnh_.param("brightness", brightness, -1);
+		pnh_.param("contrast", contrast, -1);
+		pnh_.param("saturation", saturation, -1);
+		pnh_.param("sharpness", sharpness, -1);
+		pnh_.param("backlight_compensation", backlight_compensation, -1);
+		pnh_.param("exposure_auto", exposure_auto, -1);
+		pnh_.param("exposure", exposure, -1);
+		pnh_.param("focus_absolute", focus_absolute, -1);
+		pnh_.param("focus_auto", focus_auto, -1);
+
+		if (brightness != -1)
+		{
+			cap_.set(cv::CAP_PROP_BRIGHTNESS, brightness);
+			ROS_INFO("Brightness: %d", brightness);
+		}
+		if (contrast != -1)
+		{
+			cap_.set(cv::CAP_PROP_CONTRAST, contrast);
+			ROS_INFO("Contrast: %d", contrast);
+		}
+		if (saturation != -1)
+		{
+			cap_.set(cv::CAP_PROP_SATURATION, saturation);
+			ROS_INFO("Saturation: %d", saturation);
+		}
+		if (sharpness != -1)
+		{
+			cap_.set(cv::CAP_PROP_SHARPNESS, sharpness);
+			ROS_INFO("Sharpness: %d", sharpness);
+		}
+		if (backlight_compensation != -1)
+		{
+			cap_.set(cv::CAP_PROP_BACKLIGHT, backlight_compensation);
+			ROS_INFO("Backlight compensation: %d", backlight_compensation);
+		}
+		if (exposure_auto != -1)
+		{
+			cap_.set(cv::CAP_PROP_AUTO_EXPOSURE, exposure_auto);
+			ROS_INFO("Exposure auto: %d", exposure_auto);
+		}
+		if (exposure != -1)
+		{
+			cap_.set(cv::CAP_PROP_EXPOSURE, exposure);
+			ROS_INFO("Exposure: %d", exposure);
+		}
+		if (focus_auto != -1)
+		{
+			cap_.set(cv::CAP_PROP_AUTOFOCUS, focus_auto);
+			ROS_INFO("Focus auto: %d", focus_auto);
+		}
+		if (focus_absolute != -1)
+		{
+			cap_.set(cv::CAP_PROP_FOCUS, focus_absolute);
+			ROS_INFO("Focus absolute: %d", focus_absolute);
+		}
+		ROS_INFO("Camera settings configured");
 	}
 
 	std::string generateFilename() {
