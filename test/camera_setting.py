@@ -16,9 +16,9 @@ def update_camera_settings(cap, brightness, contrast, saturation, sharpness,
     cap.set(cv2.CAP_PROP_APERTURE, aperture)
 
 # Initialize the camera
-cap = cv2.VideoCapture(4)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 515)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 
 # Check if camera is opened correctly
 if not cap.isOpened():

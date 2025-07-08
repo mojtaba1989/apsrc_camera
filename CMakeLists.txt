@@ -16,7 +16,7 @@ set(catkin_deps
 
 find_package(catkin REQUIRED ${catkin_deps})
 find_package(Boost REQUIRED)
-find_package(OpenCV 3.2 REQUIRED)
+find_package(OpenCV 4.2 REQUIRED)
 
 catkin_package(
     CATKIN_DEPENDS ${catkin_deps}

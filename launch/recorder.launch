@@ -5,10 +5,12 @@
   <arg name="height" default="720"/>
   <arg name="fps" default="15"/>
   <arg name="node_name" default="$(arg camera_name)"/>
-  <arg name="dir" default="/tmp"/>
+  <!-- <arg name="dir" default="/tmp"/> -->
   <arg name="rotate" default="false"/>
   <arg name="yaml_enb" default="true"/>
-  <!-- <arg name="dir" default="$(env pwd)"/> export pwd=$(pwd) for using this option-->
+  
+  <!-- export pwd=$(pwd) for using this option -->
+  <arg name="dir" default="$(env pwd)"/> 
 
   <node name="$(arg node_name)" pkg="apsrc_camera" type="webcam_node" output="screen">
     <param name="camera_name" value="$(arg camera_name)"/>

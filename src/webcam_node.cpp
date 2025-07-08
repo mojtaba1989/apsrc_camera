@@ -1,7 +1,6 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
-// #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 #include <apsrc_msgs/ElapsedTime.h>
 #include <apsrc_msgs/RecInfo.h>
@@ -44,7 +43,7 @@ public:
 
 		lapsed_time_pub_ = nh_.advertise<apsrc_msgs::ElapsedTime>(generateTopic("elapsed_time"), 1, true);
 		info_pub_ = nh_.advertise<apsrc_msgs::RecInfo>(generateTopic("info"), 1, true);
-		cap_.open(device_id_);
+		cap_.open(device_id_, cv::CAP_V4L2);
 		
 		if (!cap_.isOpened())
 		{
