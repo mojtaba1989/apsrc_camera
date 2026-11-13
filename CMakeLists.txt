@@ -1,54 +1,43 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.8)
 project(apsrc_camera)
 
-## c++11 feature
-set(CMAKE_CXX_FLAGS "-std=c++14 -Wall -Wextra ${CMAKE_CXX_FLAGS}")
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-set(catkin_deps
+find_package(ament_cmake REQUIRED)
+find_package(OpenCV 4.5 REQUIRED)
+
+set(ROS2_DEPS
     sensor_msgs
     apsrc_msgs
-    roscpp
-    roslib
-    roslint
     std_msgs
+    rclcpp
     cv_bridge
 )
 
-find_package(catkin REQUIRED ${catkin_deps})
-find_package(Boost REQUIRED)
-find_package(OpenCV 4.2 REQUIRED)
+foreach(pkg ${ROS2_DEPS})
+    find_package(${pkg} REQUIRED)  
+endforeach()
 
-catkin_package(
-    CATKIN_DEPENDS ${catkin_deps}
-)
-
-roslint_cpp()
-
-
-include_directories(
-    ${catkin_INCLUDE_DIRS}
-    ${OpenCV_INCLUDE_DIRS}
-)
-
-# cv_to_ros
 add_executable(webcam_node src/webcam_node.cpp)
-target_link_libraries(webcam_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-############
-# Install ##
-############
+target_include_directories(webcam_node PRIVATE
+  ${OpenCV_INCLUDE_DIRS}
+)
+
+ament_target_dependencies(webcam_node ${ROS2_DEPS})
+target_link_libraries(webcam_node ${OpenCV_LIBRARIES})
 
 install(TARGETS
-    webcam_node
-    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  webcam_node
+  DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY launch config
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+install(DIRECTORY
+  launch
+  config
+  DESTINATION share/${PROJECT_NAME}
 )
 
-install(DIRECTORY include/${PROJECT_NAME}/
-    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-)
+ament_package()
